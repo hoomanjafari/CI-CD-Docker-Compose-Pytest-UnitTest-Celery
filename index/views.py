@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Post
 from .serializers import PostSerializer
+from .tasks import test_celery
 
 
 class IndexView(APIView):
@@ -32,3 +33,9 @@ class PostCreateView(APIView):
             serializer.save()
             return Response({'detail': 'post_created'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TestCeleryTask(APIView):
+    def get(self, request):
+        test_celery.delay(7)
+        return Response({'detail': 'Ok'}, status.HTTP_200_OK)

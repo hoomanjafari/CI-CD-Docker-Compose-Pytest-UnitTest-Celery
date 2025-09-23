@@ -12,4 +12,6 @@ RUN pip install -r requirements.txt
 
 COPY . /app
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+# because we're gonna use docker compose, we dont need this CMD command anymore
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

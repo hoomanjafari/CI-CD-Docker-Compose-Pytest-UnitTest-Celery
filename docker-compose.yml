@@ -1,0 +1,31 @@
+services:
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+  backend:
+    container_name: backend
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=django-insecure-pve6r^ahfrb31^(awrzcmo)12r38a94^nw6nye#mh9h@u2b8z2
+      - DEBUG=True
+      - DJANGO_ALLOWED_HOSTS=127.0.0.1
+    depends_on:
+      - redis
+  worker:
+    container_name: worker
+    build: .
+    volumes:
+      - .:/app
+    command: celery -A testcase worker --loglevel=info
+    depends_on:
+      - redis
+      - backend

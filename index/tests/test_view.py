@@ -15,7 +15,7 @@ class TestView(TestCase):
     def test_url_view_status_200(self):
         url = reverse('index:index')
         response = self.client.get(url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     # to check the views is rendering the right template or not
     # def test_url_view_template_render(self):
@@ -26,7 +26,7 @@ class TestView(TestCase):
     def test_view_post_detail_response_200(self):
         url = reverse('index:post-detail', kwargs={'pk': 1})
         response = self.client.get(url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_view_create_post_login_required(self):
         url = reverse('index:post-create')
